@@ -278,6 +278,8 @@ app.get('/', (req, res) => {
 //     });
 // });
 
+
+
 // Error handling middleware logging app level errors
 app.use((err, req, res, next) => {
   console.error(err.stack);
@@ -290,3 +292,4 @@ app.listen(port, '0.0.0.0', () => {
 });
 
 module.exports = app;
+
