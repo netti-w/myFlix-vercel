@@ -12,10 +12,10 @@ const Movies = Models.Movie;
 const Users = Models.User;
 
 // Connecting LOCAL myFlixDB via Mongoose to perform CRUD operations
-// mongoose.connect('mongodb://localhost:27017/myFlixDB', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect('mongodb://localhost:27017/myFlixDB', { useNewUrlParser: true, useUnifiedTopology: true });
 
 // Connecting EXTERNAL (MongoDB Atlas) myFlixDB via Mongoose to perform CRUD operations
-mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+// mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 
 const app = express();
 
@@ -52,7 +52,7 @@ app.get('/', (req, res) => {
  * GET the list of data about all movies
  * @returns an array of all movies objects in json format 
 */
-app.get('/movies', passport.authenticate('jwt', { session: false }), (req, res) => {
+app.get('/movies', (req, res) => {
   Movies.find().then(movies => res.json(movies));
 });
 
@@ -61,7 +61,7 @@ app.get('/movies', passport.authenticate('jwt', { session: false }), (req, res) 
  * @params {string} Title
  * @returns a movie object in json format
  */
-app.get('/movies/:Title', passport.authenticate('jwt', { session: false }), (req, res) => {
+app.get('/movies/:Title', (req, res) => {
   Movies.findOne({ Title: req.params.Title })
     .then((movie) => {
       res.json(movie);
@@ -77,7 +77,7 @@ app.get('/movies/:Title', passport.authenticate('jwt', { session: false }), (req
  * @params {string} genreName
  * @returns a genre object in json format
  */
-app.get('/movies/genres/:genreName', passport.authenticate('jwt', { session: false }), (req, res) => {
+app.get('/movies/genres/:genreName', (req, res) => {
   Movies.findOne({ "Genre.Name": req.params.genreName })
     .then((movie) => {
       res.json(movie.Genre);
@@ -288,3 +288,5 @@ const port = process.env.PORT || 8080;
 app.listen(port, '0.0.0.0', () => {
   console.log('Listening on Port ' + port);
 });
+
+module.exports = app;
